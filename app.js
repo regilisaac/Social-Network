@@ -20,7 +20,7 @@ const errorController = require("./controllers/errorController");
 
 const app = express();
 app.engine("hbs", engine({
-    layousDir: "views/layouts/", 
+    layoutDir: "views/layouts/", 
     defaultLayout: "main-layout", 
     extname: "hbs",
     helpers:{
