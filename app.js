@@ -49,11 +49,13 @@ const adminBookRouter = require("./routes/adminBook");
 const adminCategoryRouter = require("./routes/adminCategory");
 const adminWriterRouter = require("./routes/adminWriter");
 const adminEditorialRouter = require("./routes/adminEditorial");
+const loginRouter = require("./routes/login")
 
 app.use("/admin",adminBookRouter);
 app.use("/admin",adminCategoryRouter);
 app.use("/admin",adminWriterRouter);
 app.use("/admin",adminEditorialRouter);
+app.use("/",loginRouter);
 app.use(booksRouter);
 
 app.use(errorController.Get404);
