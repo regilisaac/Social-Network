@@ -3,17 +3,20 @@ const express = require('express');
 const HANDLEBARS = require('handlebars');
 const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
-const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+/*
 const Books = require("./models/books");
 const Categorys = require("./models/categorys");
 const Editorials = require("./models/editorials");
 const Writers = require("./models/writers");
+*/
 const multer = require("multer");
 const { v4: uuidv4 } = require('uuid');
 
 const compareHelpers = require("./util/helpers/hbs/compare");
+/*
 const errorController = require("./controllers/errorController");
-
+*/
 
 const app = express();
 app.engine("hbs", engine({
@@ -44,33 +47,39 @@ const imageStorage = multer.diskStorage({
 });
 
 app.use(multer({storage: imageStorage}).single("image"));
+/*
 const booksRouter = require("./routes/books");
 const adminBookRouter = require("./routes/adminBook");
 const adminCategoryRouter = require("./routes/adminCategory");
 const adminWriterRouter = require("./routes/adminWriter");
 const adminEditorialRouter = require("./routes/adminEditorial");
+*/
 const loginRouter = require("./routes/login")
-
+/*
 app.use("/admin",adminBookRouter);
 app.use("/admin",adminCategoryRouter);
 app.use("/admin",adminWriterRouter);
 app.use("/admin",adminEditorialRouter);
-app.use("/",loginRouter);
 app.use(booksRouter);
-
+*/
+app.use("/",loginRouter);
+/*
 app.use(errorController.Get404);
-
+*/
+/*
 Books.belongsTo(Categorys, {constraints: true, onDelete: "CASCADE"});
 Categorys.hasMany(Books);
 Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
 Writers.hasMany(Books);
 Books.belongsTo(Editorials, {constraints: true, onDelete: "CASCADE"});
 Editorials.hasMany(Books);
+*/
 
-
-sequelize.sync().then(result => {
+/*sequelize.sync().then(result => {
+    */
     app.listen(3000);
+    /*
 }).catch(err => {
     console.log(err);
 });
-
+*/
