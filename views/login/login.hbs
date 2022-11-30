@@ -26,11 +26,11 @@
                 <!--Formulario de Login y registro-->
                 <div class="contenedor__login-register">
                     <!--Login-->
-                    <form action="" class="formulario__login" method="post" >
+                    <form action="" class="formulario__login" method="POST" >
                         <div><br></div>
                             <h2>Iniciar Sesión</h2>
-                            <input type="text" placeholder="Usuario" name="usuario">
-                            <input type="password" placeholder="Contraseña" name="contrasena">
+                            <input type="text" placeholder="Usuario" name="LogUsuario">
+                            <input type="password" placeholder="Contraseña" name="Contrasena">
                             <button type="submit">Entrar</button>
                          <div><br></div>
                     </form>
@@ -38,12 +38,12 @@
                     <!--Register-->
                     <form name="Registrar" action="create-usuario" class="formulario__register" method="post" enctype="multipart/form-data">
                         <h2>Regístrarse</h2>
-                        <input type="text" placeholder="Nombre" name="name">
-                        <input type="text" placeholder="Apellido" name="lastne">
-                        <input type="text" placeholder="Telefono" name="phone">
-                        <input type="text" placeholder="Correo Electronico" name="email">
-                        <input type="text" placeholder="Usuario" name="user">
-                        <input type="password" placeholder="Contraseña" name="password">
+                        <input type="text" placeholder="Nombre" name="Nombre">
+                        <input type="file" name="Img">
+                        <input type="text" placeholder="Correo" name="Correo">
+                        <input type="text" placeholder="Usario" name="Usuario">
+                        <input type="password" placeholder="Contraseña" name="Contrasena">
+                        <input type="password" placeholder="Confirmar Contraseña" name="Ccontrasena">
                         <button type="submit">Registrar</button>
                     </form>
                 </div>

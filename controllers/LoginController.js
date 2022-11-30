@@ -1,5 +1,6 @@
 const Usuarios = require("../models/Registro");
 const bcrypt = require("bcryptjs");
+
 exports.GetLogin = (req, res, next) => {
 
 
