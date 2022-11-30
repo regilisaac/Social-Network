@@ -4,14 +4,15 @@ const HANDLEBARS = require('handlebars');
 const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const multer = require("multer");
+const {v4: uuidv4} = require("uuid");
+const session = require("express-session");
 /*
 const Books = require("./models/books");
 const Categorys = require("./models/categorys");
 const Editorials = require("./models/editorials");
 const Writers = require("./models/writers");
 */
-const multer = require("multer");
-const { v4: uuidv4 } = require('uuid');
 
 const compareHelpers = require("./util/helpers/hbs/compare");
 /*
@@ -46,7 +47,8 @@ const imageStorage = multer.diskStorage({
     },
 });
 
-app.use(multer({storage: imageStorage}).single("image"));
+app.use(multer({storage: imageStorage}).single("Img"));
+
 /*
 const booksRouter = require("./routes/books");
 const adminBookRouter = require("./routes/adminBook");
@@ -54,7 +56,8 @@ const adminCategoryRouter = require("./routes/adminCategory");
 const adminWriterRouter = require("./routes/adminWriter");
 const adminEditorialRouter = require("./routes/adminEditorial");
 */
-const loginRouter = require("./routes/login")
+const loginRouter = require("./routes/login");
+const homeRouter = require("./routes/home");
 /*
 app.use("/admin",adminBookRouter);
 app.use("/admin",adminCategoryRouter);
@@ -63,6 +66,15 @@ app.use("/admin",adminEditorialRouter);
 app.use(booksRouter);
 */
 app.use("/",loginRouter);
+
+app.use(session({secret:"anything",resave: true, saveUninitialized: false}));
+
+app.use((req,res,next)=>{
+    
+
+    res.locals.isAuthenticated = req.session.IsLoggedIn;
+    next();
+})
 /*
 app.use(errorController.Get404);
 */
@@ -75,11 +87,11 @@ Books.belongsTo(Editorials, {constraints: true, onDelete: "CASCADE"});
 Editorials.hasMany(Books);
 */
 
-/*sequelize.sync().then(result => {
-    */
+sequelize.sync().then(result => {
+    
     app.listen(3000);
-    /*
+    
 }).catch(err => {
     console.log(err);
 });
-*/
+

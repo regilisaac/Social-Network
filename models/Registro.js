@@ -13,18 +13,24 @@ const Usuario = sequelize.define("usuarios",{
         type: Sequilize.STRING,
         allowNull: false
     },
-    foto:{
+    img:{
         type: Sequilize.STRING,
         allowNull: false
     },
-    region:{
+    correo:{
         type: Sequilize.STRING,
-        allowNull: false
+        allowNull: false,
+        idexes: [{unique: true}]
     },
-    primario:{
+    usuario:{
+        type: Sequilize.STRING,
+        allowNull: false,
+        idexes: [{unique: true}]
+    },contrasena:{
         type: Sequilize.STRING,
         allowNull: false
     }
+
 
 })
 
