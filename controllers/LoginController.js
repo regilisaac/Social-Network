@@ -1,5 +1,8 @@
 const Usuarios = require("../models/Registro");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const bcrypt = require("bcryptjs");
+let isLoggedIn = false;
 
 exports.GetLogin = (req, res, next) => {
 
@@ -20,35 +23,37 @@ exports.GetLogin = (req, res, next) => {
 };
 
 exports.PostLogin = (req, res, next) => {
-    //req.session.isLoggedIn = true;
-    //res.redirect("/home");
+  
   const Logusuario = req.body.LogUsuario;
   const contrasena = req.body.Contrasena;
 
-    Usuarios.findOne({where: {usuario: Logusuario}}).then(user =>{
+    Usuarios.findOne({where: {usuario: Logusuario}})
+    .then(user =>{
      if(!user){
       return res.redirect("/");
      }
 
-     bcrypt
-     .compare(contrasena, user.contrasena)
-     .then(function(result) {
-      if(result){
+     bcrypt.compare(contrasena, user.contrasena).then(result => {
+      if(result) {
+        isLoggedIn = true;
         req.session.isLoggedIn = true;
         req.session.user = user;
-        return req.session.save(err =>{
+        return req.session.save(err => {
           console.log(err);
+          console.log("entro");
           res.redirect("/home");
-        })
+        });
       }
 
       res.redirect("/");
-
-     })
+     }).catch(err=>{
+      console.log(err);
+      return res.redirect("/");
+    });
     }).catch(err=>{
     console.log(err);
     return res.redirect("/");
-  })
+  });
 };
 
 

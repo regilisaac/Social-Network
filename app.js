@@ -3,10 +3,11 @@ const express = require('express');
 const HANDLEBARS = require('handlebars');
 const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
-const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const session = require("express-session");
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const multer = require("multer");
 const {v4: uuidv4} = require("uuid");
-const session = require("express-session");
+
 /*
 const Books = require("./models/books");
 const Categorys = require("./models/categorys");
@@ -38,6 +39,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname,"public")));
 app.use("/images",express.static(path.join(__dirname,"images")));
 
+app.use(session({secret:"anything", resave: false, saveUninitialized: false}));
+
+app.use((req,res,next)=>{
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+})
+
 const imageStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "images");
@@ -67,14 +75,6 @@ app.use(booksRouter);
 */
 app.use("/",loginRouter);
 
-app.use(session({secret:"anything",resave: true, saveUninitialized: false}));
-
-app.use((req,res,next)=>{
-    
-
-    res.locals.isAuthenticated = req.session.IsLoggedIn;
-    next();
-})
 /*
 app.use(errorController.Get404);
 */
