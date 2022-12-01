@@ -35,13 +35,13 @@ exports.PostLogin = (req, res, next) => {
 
      bcrypt.compare(contrasena, user.contrasena).then(result => {
       if(result) {
-        isLoggedIn = true;
         req.session.isLoggedIn = true;
         req.session.user = user;
+        console.log(req.session.isLoggedIn);
         return req.session.save(err => {
           console.log(err);
           console.log("entro");
-          res.redirect("/home");
+          res.redirect("/publications");
         });
       }
 

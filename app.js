@@ -65,7 +65,7 @@ const adminWriterRouter = require("./routes/adminWriter");
 const adminEditorialRouter = require("./routes/adminEditorial");
 */
 const loginRouter = require("./routes/login");
-const homeRouter = require("./routes/home");
+const publicationRouter = require("./routes/publications");
 /*
 app.use("/admin",adminBookRouter);
 app.use("/admin",adminCategoryRouter);
@@ -73,6 +73,7 @@ app.use("/admin",adminWriterRouter);
 app.use("/admin",adminEditorialRouter);
 app.use(booksRouter);
 */
+app.use(publicationRouter);
 app.use("/",loginRouter);
 
 /*
