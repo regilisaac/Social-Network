@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
   },
-  "author": "Regil Batista 2021-2251",
+  "author": "Regil Batista 2021-2251, Elvis Sandoval 2020-10697, Dawrin Peguero 2021-147",
   "license": "ISC",
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
@@ -63,5 +63,5 @@
     "sequelize": "^6.25.7",
     "uuid": "^9.0.0"
   },
-  "description": ""
+  "description": "Final de Leonardo Prog-web"
 }
