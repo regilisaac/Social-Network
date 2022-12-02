@@ -3,6 +3,7 @@ const express = require('express');
 const HANDLEBARS = require('handlebars');
 const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
+const Usuario = require("./models/users");
 const session = require("express-session");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const multer = require("multer");
@@ -43,6 +44,8 @@ app.use(session({secret:"anything", resave: false, saveUninitialized: false}));
 
 app.use((req,res,next)=>{
     res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.userd = req.session.userdata;
+    console.log(req.session.user);
     next();
 })
 

@@ -1,4 +1,4 @@
-const Usuarios = require("../models/Registro");
+const Usuarios = require("../models/users");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const bcrypt = require("bcryptjs");
@@ -37,7 +37,7 @@ exports.PostLogin = (req, res, next) => {
       if(result) {
         req.session.isLoggedIn = true;
         req.session.user = user;
-        console.log(req.session.isLoggedIn);
+        req.session.userdata = user.dataValues;
         return req.session.save(err => {
           console.log(err);
           console.log("entro");
