@@ -14,7 +14,15 @@ exports.GetLogin = (req, res, next) => {
     });
     
   };
+  exports.getLogout = (req, res, next) => {
 
+      req.session.destroy((err) => {
+      console.log(err);
+      res.redirect("/");
+    });
+   
+   };
+  
   exports.GetCreateUsuarios = (req, res, next) => {
     res.render("login/login", { 
     pageTitle: "Registro",
@@ -30,6 +38,7 @@ exports.PostLogin = (req, res, next) => {
     Usuarios.findOne({where: {usuario: Logusuario}})
     .then(user =>{
      if(!user){
+      req.flash("errors","Usuario incorrecto");
       return res.redirect("/");
      }
 
@@ -40,14 +49,14 @@ exports.PostLogin = (req, res, next) => {
         req.session.userdata = user.dataValues;
         return req.session.save(err => {
           console.log(err);
-          console.log("entro");
           res.redirect("/publications");
         });
       }
-
+      req.flash("errors","Contraseña incorrecta");
       res.redirect("/");
      }).catch(err=>{
       console.log(err);
+      req.flash("errors","Ha ocurrido un error, contacte con el administrador");
       return res.redirect("/");
     });
     }).catch(err=>{
@@ -66,11 +75,13 @@ exports.PostCreateUsuarios = (req, res, next) => {
   const confirmPassword = req.body.Ccontrasena;
 
   if(contrasena !== confirmPassword){
+    req.flash("errors","Las contraseñas no coinciden");
     return res.redirect("/");
   }
 
   Usuarios.findOne({where: {usuario: usuario}}).then(user=>{
     if(user){
+      req.flash("errors","El usuario ya existe");
       return res.redirect("/");
     }
   }).catch(err=>{
@@ -80,6 +91,7 @@ exports.PostCreateUsuarios = (req, res, next) => {
 
   Usuarios.findOne({where: {correo: correo}}).then(user=>{
     if(user){
+      req.flash("errors","Ya existe un usuario con ese correo");n
       return res.redirect("/");
     }
   }).catch(err=>{
@@ -101,4 +113,4 @@ exports.PostCreateUsuarios = (req, res, next) => {
   });
 
 
-}
+};

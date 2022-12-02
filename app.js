@@ -8,6 +8,7 @@ const session = require("express-session");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const multer = require("multer");
 const {v4: uuidv4} = require("uuid");
+const flash = require("connect-flash");
 
 /*
 const Books = require("./models/books");
@@ -41,11 +42,15 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use("/images",express.static(path.join(__dirname,"images")));
 
 app.use(session({secret:"anything", resave: false, saveUninitialized: false}));
+app.use(flash());
 
 app.use((req,res,next)=>{
+    const errors = req.flash("errors");
+
     res.locals.isAuthenticated = req.session.isLoggedIn;
     res.locals.userd = req.session.userdata;
-    console.log(req.session.user);
+    res.locals.errorMessages = errors;
+    res.locals.hasErrorMessages = errors.length > 0;
     next();
 })
 
@@ -77,7 +82,7 @@ app.use("/admin",adminEditorialRouter);
 app.use(booksRouter);
 */
 app.use(publicationRouter);
-app.use("/",loginRouter);
+app.use(loginRouter);
 
 /*
 app.use(errorController.Get404);
