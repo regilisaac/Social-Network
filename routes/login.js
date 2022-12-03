@@ -5,12 +5,14 @@ const router = express.Router();
 const loginController = require('../controllers/LoginController');
 const isAuth = require("../middlewares/is-auth");
 
-router.get("/",loginController.GetLogin);
-router.get("/logout", isAuth,  loginController.getLogout);
-router.get("/create-usuario", loginController.GetCreateUsuarios);
-router.post("/create-usuario", loginController.PostCreateUsuarios);
-router.get("/login",loginController.GetLogin);
-router.post("/login",loginController.PostLogin);
+
+router.get("/signup", loginController.getSignup);
+router.post("/signup",  loginController.PostSignup);
+router.get("/login" , loginController.getLogin);
+router.post("/login", loginController.PostLogin);
+router.get("/logout", isAuth ,loginController.getLogout);
+router.get("/forgot", loginController.getForgot);
+router.post("/forgot", loginController.posForgot);
 
 
 module.exports = router;

@@ -18,9 +18,9 @@ const Writers = require("./models/writers");
 */
 
 const compareHelpers = require("./util/helpers/hbs/compare");
-/*
+
 const errorController = require("./controllers/errorController");
-*/
+
 
 const app = express();
 app.engine("hbs", engine({
@@ -63,7 +63,8 @@ const imageStorage = multer.diskStorage({
     },
 });
 
-app.use(multer({storage: imageStorage}).single("Img"));
+app.use(multer({storage: imageStorage}).single("image"));
+
 
 /*
 const booksRouter = require("./routes/books");
@@ -84,9 +85,9 @@ app.use(booksRouter);
 app.use(publicationRouter);
 app.use(loginRouter);
 
-/*
+
 app.use(errorController.Get404);
-*/
+
 /*
 Books.belongsTo(Categorys, {constraints: true, onDelete: "CASCADE"});
 Categorys.hasMany(Books);

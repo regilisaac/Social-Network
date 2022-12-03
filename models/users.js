@@ -13,6 +13,14 @@ const Usuario = sequelize.define("usuarios",{
         type: Sequilize.STRING,
         allowNull: false
     },
+    lastname:{
+        type: Sequilize.STRING,
+        allowNull: false
+    },
+    phone:{
+        type: Sequilize.STRING,
+        allowNull: false
+    },
     img:{
         type: Sequilize.STRING,
         allowNull: false
