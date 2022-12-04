@@ -17,6 +17,43 @@ exports.getLogin = (req, res, next) => {
   }
   };
 
+  exports.getActive = (req, res, next) => {
+    const activate = req.query.activate;
+    const userId = req.params.userId;
+    const estatus = 1;
+    if(!activate){
+        return res.redirect("/login");
+    }
+    if (!req.session.isLoggedIn) {
+      Usuarios.findOne({where: {id: userId}})
+      .then(users =>{
+        if(!users){
+        return res.redirect("/login");
+       } 
+        const user = users.dataValues;
+        if(user.estado === "1"){
+          req.flash("errors","Su cuenta ya esta activa");
+          console.log("Su cuenta ya esta activa");
+          return res.redirect("/login");
+         }
+
+          Usuarios.update({estado: estatus}, {where: {id: user.id}})
+         .then((result) => {
+          res.redirect("/login");
+         }).catch(err=>{
+          req.flash("errors","Ha ocurrido un error, contacte con el administrador");
+          console.log(err);
+        });
+
+      }).catch(err=>{
+        console.log(err);
+      });
+    } else {
+        req.flash("errors","Para proseguir debe cerrar la sesión actual")
+        res.redirect("/");
+    }
+    };
+
   exports.getForgot = (req, res, next) => {
     if (!req.session.isLoggedIn) {
       res.render("login/forgot",
@@ -53,7 +90,7 @@ exports.getLogin = (req, res, next) => {
          Usuarios.update({contrasena: hasedPassword}, {where: {id: user.id}})
          .then((result) => {
           res.redirect("/login");
-          return transporter.sendMail({
+            return transporter.sendMail({
             from: "Social Network notification",
             to: user.correo,
             subject: `restabler contraceña de ${user.usuario}`,
@@ -98,6 +135,11 @@ exports.PostLogin = (req, res, next) => {
       req.flash("errors","Usuario incorrecto");
       return res.redirect("/login");
      }
+      
+    if(user.estado === "0"){
+        req.flash("errors","Su cuenta no esta activa");
+        return res.redirect("/login");
+      }
 
      bcrypt.compare(contrasena, user.contrasena).then(result => {
       if(result) {
@@ -132,6 +174,7 @@ exports.PostSignup = (req, res, next) => {
   const usuario = req.body.user;
   const contrasena = req.body.password;
   const confirmPassword = req.body.confirmpassword;
+  const estatus = 0;
 
   if(contrasena !== confirmPassword){
     req.flash("errors","Las contraseñas no coinciden");
@@ -150,7 +193,7 @@ exports.PostSignup = (req, res, next) => {
 
   Usuarios.findOne({where: {correo: correo}}).then(user=>{
     if(user){
-      req.flash("errors","Ya existe un usuario con ese correo");n
+      req.flash("errors","Ya existe un usuario con ese correo");
       return res.redirect("/signup");
     }
   }).catch(err=>{
@@ -164,9 +207,19 @@ exports.PostSignup = (req, res, next) => {
       return res.redirect("/signup");
   }
   
-    Usuarios.create({name: name, img: "/" + img.path, correo: correo , lastname: lastname,phone: phone,usuario: usuario, contrasena: hasedPassword}).then(result=>{
-    
-      return res.redirect("/login");
+    Usuarios.create({name: name, img: "/" + img.path, correo: correo , lastname: lastname,phone: phone,usuario: usuario, contrasena: hasedPassword, estado: estatus }).then(result=>{
+      const user = result.dataValues;
+      res.redirect("/login");
+      return transporter.sendMail({
+        from: "Social Network notification",
+        to: correo,
+        subject: `Active su cuenta${usuario}`,
+        html: `<strong> Activacion de su cuenta</strong> <br><br> <p> Ahora solo tiene que activar su cuenta para poder acceder e interactuar con tus amigos. <a href="http://localhost:3000/active/${user.id}?activate=true" type="button" class="btn btn-sm float-end btn-outline-warning me-3">activar</a>  Gracias por ser parte de Social Network</p>`
+        },
+          (err3) => {
+              console.log(err3);
+      });
+
    }).catch(err=>{
      console.log(err);
      return res.redirect("/signup");

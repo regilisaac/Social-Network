@@ -34,10 +34,16 @@ const Usuario = sequelize.define("usuarios",{
         type: Sequilize.STRING,
         allowNull: false,
         idexes: [{unique: true}]
+
     },contrasena:{
         type: Sequilize.STRING,
         allowNull: false
+
+    },estado:{
+        type: Sequilize.STRING,
+        allowNull: true
     }
+    
 
 
 })

@@ -13,6 +13,7 @@ router.post("/login", loginController.PostLogin);
 router.get("/logout", isAuth ,loginController.getLogout);
 router.get("/forgot", loginController.getForgot);
 router.post("/forgot", loginController.posForgot);
+router.get("/active/:userId", loginController.getActive);
 
 
 module.exports = router;
