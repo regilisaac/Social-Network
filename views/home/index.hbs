@@ -1,4 +1,28 @@
+<head>
+    <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.min.css">
+</head>
 <main>
-    <h1>Soy el home</h1>
+    <form method="post">
+  <div class="form-group">
+<div class="form-group">
+ <div class="form-group">
+    <label for="Publicacion">Escriba lo que quiere publicar</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="Publicacion" required></textarea>
+  </div>
+  <div class="form-group">
+<label for="Imagen Publicacion">Imagen de la publicacion</label>
+<input type="file" name="ImagenPublicacion">
+  </div>
+</div>
+<button type="submit">Publicar</button>
+ 
+</form>
+
+{{#each publicacion as |publicaciones|}}
+<h1>{{publicaciones.description}}</h1>
+{{/each}}
+{{#if hasPublicacion}}
+    <h1>No hay mas publicaciones</h1>
+{{/if}}
     {{userdata.img}}
 </main>

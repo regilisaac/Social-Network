@@ -40,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname,"public")));
 app.use("/images",express.static(path.join(__dirname,"images")));
+app.use("/imagesPublication", express.static(path.join(__dirname, "imagesPublication")));
 
 app.use(session({secret:"anything", resave: false, saveUninitialized: false}));
 app.use(flash());
@@ -64,6 +65,17 @@ const imageStorage = multer.diskStorage({
 });
 
 app.use(multer({storage: imageStorage}).single("image"));
+
+const imageStorage1 = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "imagesPublication");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${uuidv4()}-${file.originalname}`);
+    },
+});
+
+app.use(multer({storage: imageStorage1}).single("imagePublication"));
 
 
 /*
