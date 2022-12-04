@@ -164,7 +164,6 @@ exports.PostLogin = (req, res, next) => {
   });
 };
 
-
 exports.PostSignup = (req, res, next) => {
   const name = req.body.name;
   const lastname = req.body.lastname;
@@ -181,39 +180,29 @@ exports.PostSignup = (req, res, next) => {
   }
 
  const rd = phone.split('-');
- if(rd[1] === "(809)"|| rd[1] === "(829)"|| rd[1] === "(849)"){
+ if(rd[0] === "(809)"|| rd[0] === "(829)"|| rd[0] === "(849)"){
 
 
   if(contrasena !== confirmPassword){
     req.flash("errors","Las contraseñas no coinciden");
     return res.redirect("/signup");
   }
-
   Usuarios.findOne({where: {usuario: usuario}}).then(user=>{
     if(user){
       req.flash("errors","El usuario ya existe");
       return res.redirect("/signup");
     }
-  }).catch(err=>{
-    console.log(err);
-    return res.redirect("/signup");
-  })
-
+ 
   Usuarios.findOne({where: {correo: correo}}).then(user=>{
     if(user){
       req.flash("errors","Ya existe un usuario con ese correo");
       return res.redirect("/signup");
     }
-  }).catch(err=>{
-    console.log(err);
-    return res.redirect("/signup");
-  })
-
+  
   bcrypt.hash(contrasena,12).then(hasedPassword =>{
-
     if(!img){
       return res.redirect("/signup");
-  }
+     }
   
     Usuarios.create({name: name, img: "/" + img.path, correo: correo , lastname: lastname,phone: phone,usuario: usuario, contrasena: hasedPassword, estado: estatus }).then(result=>{
       const user = result.dataValues;
@@ -227,16 +216,25 @@ exports.PostSignup = (req, res, next) => {
           (err3) => {
               console.log(err3);
       });
-
+      
    }).catch(err=>{
      console.log(err);
      return res.redirect("/signup");
    });
+  }).catch(err=>{
+    console.log(err);
+    return res.redirect("/signup");
+  });
 
   }).catch(err=>{
     console.log(err);
     return res.redirect("/signup");
   });
+
+}).catch(err=>{
+  console.log(err);
+  return res.redirect("/signup");
+})
 
  }else{  
   req.flash("errors","El numero de telefono no es valido para la Republica Dominicana");
@@ -244,7 +242,6 @@ exports.PostSignup = (req, res, next) => {
 }
 
 };
-
         function generateP() {
             var pass = '';
             var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 

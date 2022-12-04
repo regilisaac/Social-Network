@@ -66,16 +66,7 @@ const imageStorage = multer.diskStorage({
 
 app.use(multer({storage: imageStorage}).single("image"));
 
-const imageStorage1 = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "imagesPublication");
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${uuidv4()}-${file.originalname}`);
-    },
-});
 
-app.use(multer({storage: imageStorage1}).single("imagePublication"));
 
 
 /*
