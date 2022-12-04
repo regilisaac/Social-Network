@@ -175,6 +175,14 @@ exports.PostSignup = (req, res, next) => {
   const contrasena = req.body.password;
   const confirmPassword = req.body.confirmpassword;
   const estatus = 0;
+  if(name === "" || lastname === "" || phone === "" || correo === "" || usuario === "" || contrasena === "" || confirmPassword === ""){
+    req.flash("errors","Todos los campos son obligatorios");
+    return res.redirect("/signup");
+  }
+
+ const rd = phone.split('-');
+ if(rd[1] === "(809)"|| rd[1] === "(829)"|| rd[1] === "(849)"){
+
 
   if(contrasena !== confirmPassword){
     req.flash("errors","Las contraseñas no coinciden");
@@ -230,9 +238,13 @@ exports.PostSignup = (req, res, next) => {
     return res.redirect("/signup");
   });
 
+ }else{  
+  req.flash("errors","El numero de telefono no es valido para la Republica Dominicana");
+ return res.redirect("/signup");
+}
 
 };
-;
+
         function generateP() {
             var pass = '';
             var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 
