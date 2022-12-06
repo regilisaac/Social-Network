@@ -201,6 +201,7 @@ exports.PostSignup = (req, res, next) => {
   
   bcrypt.hash(contrasena,12).then(hasedPassword =>{
     if(!img){
+      req.flash("errors","Debe seleccionar una imagen");
       return res.redirect("/signup");
      }
   

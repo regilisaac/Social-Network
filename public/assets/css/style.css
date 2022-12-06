@@ -121,3 +121,21 @@
     color: #000;
     font-size: 30px;
   }
+
+
+  .imgedit img{
+    width: 500px;
+    height: 450px;
+    display:block;
+    margin:auto;
+    border-radius: 15px;
+      
+  }
+
+  .imgedit{
+      align-items: center;
+  }
+
+  .btn-center{
+    text-align: center;
+}
