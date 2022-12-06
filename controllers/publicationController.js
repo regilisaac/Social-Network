@@ -1,6 +1,6 @@
 const users = require("../models/users");
 const Sequelize = require("sequelize");
-const Publicacion = require("../models/publication")
+const Publicacion = require("../models/publications")
 
   exports.gethome = (req, res, next) => {
 
@@ -24,15 +24,22 @@ const Publicacion = require("../models/publication")
   exports.PostHome = (req, res, next) => {
 
   const description = req.body.Publicacion;
-  const imgPublication = req.file;
+  const img = req.file;
+  const userId = req.params.userId;
+  const date = new Date().getTime();
+  const fecha = new Date(date).toDateString();
+  console.log(userId);
 
-  Publicacion.create({description: description, imgPublication: imgPublication} ).then(result=>{
+  
+  Publicacion.create({description: description, img:  "/" + img.path, usuarioId: userId, date: fecha} ).then(result=>{
     
     return res.redirect("/");
+   
  }).catch(err=>{
    console.log(err);
    return res.redirect("/");
  });
+  
 
 
    

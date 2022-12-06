@@ -2,7 +2,7 @@ const Sequilize = require('sequelize');
 
 const sequelize = require("../util/database");
 
-const Publication = sequelize.define("Publicaciones",{
+const Publication = sequelize.define("publicaciones",{
     id: {
         type: Sequilize.INTEGER,
         autoIncrement: true,
@@ -13,11 +13,14 @@ const Publication = sequelize.define("Publicaciones",{
         type: Sequilize.STRING,
         allowNull: false
     },
-    imgPublication:{
+    img:{
         type: Sequilize.STRING,
         allowNull: true
+    },
+    date:{
+        type: Sequilize.STRING,
+        allowNull: false
     }
-
 
 })
 

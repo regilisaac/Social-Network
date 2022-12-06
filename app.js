@@ -4,6 +4,7 @@ const HANDLEBARS = require('handlebars');
 const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
 const Usuario = require("./models/users");
+const Publication = require("./models/publications");
 const session = require("express-session");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const multer = require("multer");
@@ -40,7 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname,"public")));
 app.use("/images",express.static(path.join(__dirname,"images")));
-app.use("/imagesPublication", express.static(path.join(__dirname, "imagesPublication")));
+
 
 app.use(session({secret:"anything", resave: false, saveUninitialized: false}));
 app.use(flash());
@@ -67,8 +68,6 @@ const imageStorage = multer.diskStorage({
 app.use(multer({storage: imageStorage}).single("image"));
 
 
-
-
 /*
 const booksRouter = require("./routes/books");
 const adminBookRouter = require("./routes/adminBook");
@@ -78,6 +77,7 @@ const adminEditorialRouter = require("./routes/adminEditorial");
 */
 const loginRouter = require("./routes/login");
 const publicationRouter = require("./routes/publications");
+const { truncate } = require('fs');
 /*
 app.use("/admin",adminBookRouter);
 app.use("/admin",adminCategoryRouter);
@@ -91,9 +91,11 @@ app.use(loginRouter);
 
 app.use(errorController.Get404);
 
+
+Publication.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Publication);
+
 /*
-Books.belongsTo(Categorys, {constraints: true, onDelete: "CASCADE"});
-Categorys.hasMany(Books);
 Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
 Writers.hasMany(Books);
 Books.belongsTo(Editorials, {constraints: true, onDelete: "CASCADE"});
