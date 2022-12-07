@@ -18,7 +18,7 @@ const Publication = sequelize.define("publicaciones",{
         allowNull: true
     },
     date:{
-        type: Sequilize.STRING,
+        type: Sequilize.DATE,
         allowNull: false
     }
 

@@ -1,10 +1,12 @@
+
 const users = require("../models/users");
 const Sequelize = require("sequelize");
+
 const Publicacion = require("../models/publications")
 
   exports.gethome = (req, res, next) => {
 
-    Publicacion.findAll().then((result) =>{
+    Publicacion.findAll({order: [['date','DESC']]}).then((result) =>{
       const publicacion = result.map((result) => result.dataValues);
       
       res.render("home/index", { 
@@ -22,7 +24,7 @@ const Publicacion = require("../models/publications")
   const img = req.file;
   const userId = req.params.userId;
   const date = new Date().getTime();
-  const fecha = new Date(date).toDateString();
+  const fecha = new Date(date).toUTCString();
   
   if(!img && !description){
     req.flash("errors","Debe ingresar una descripción o una imagen");
