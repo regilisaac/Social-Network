@@ -1,0 +1,43 @@
+<main>
+
+<form action="/agg-friends" method="post">
+    <div class="form-group">
+        <label for="Friends">Agregar Amigos</label>
+        <input type="text" class="form-control mt-1" placeholder="Escribe el usuario que deseas agregar" name="AggAmigo" required><button class="mt-2 btn btn-primary mb-3">Agregar</button>
+    </div>
+    <input type="hidden" value="{{userd.id}}">
+    </form>
+
+    {{#each publicacion as |publicaciones|}}
+  <div class="col">
+  <div class="card">
+  <div class="card-body">
+   <div class="head">
+    <img src="{{../userd.img}}">
+     <div class="mb-2">
+    <p>{{../userd.usuario}}
+    </p>
+    </div>
+  </div>
+  <small class="text-muted" >{{publicaciones.date}}</small>
+  <br>
+  <br>
+    <p class="card-text">{{publicaciones.description}}</p>
+  </div>
+  {{#if (equals publicaciones.img "")}}
+  {{else}}
+  <img src="{{publicaciones.img}}" class="card-img-bottom" alt="...">
+  {{/if}}
+  <div class="card-footer">
+  <div class="row btn-center">
+  <div class=" col-4 ">  
+</form>     
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+<div> <br> <br> </div>
+{{/each}}
+</main>
