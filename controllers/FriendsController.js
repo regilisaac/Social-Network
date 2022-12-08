@@ -8,7 +8,7 @@ exports.getFriends = (req, res, next) => {
     Publicacion.findAll({order: [['date','DESC']]}).then((result) =>{
 
         let usuarios=[];
-      users.findAll().then(result1 =>{
+      users.findOne({where: {id: userId}}).then(result1 =>{
       
          result1.map((result1) => usuarios.push(result1.dataValues) );
     
@@ -31,7 +31,7 @@ exports.getFriends = (req, res, next) => {
 
   exports.PostFriend = (res, req, next) =>{
 
-    amigo = req.body.AggAmigo;
+    userId = req.body.AggAmigo;
     let username;
 
     users.findAll({
