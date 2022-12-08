@@ -9,11 +9,15 @@ const Friends = sequelize.define("friends",{
       allowNull: false,
       primaryKey: true,
   },
-  usuarioID:{
+  isAccepted:{
+  type: Sequelize.BOOLEAN,
+  defaultValue: false,
+  },
+  senderID:{
       type: Sequelize.INTEGER,
       allowNull: false,
   },
-  amigoID:{
+  receptorID:{
       type: Sequelize.INTEGER,
       allowNull: false,
   }
