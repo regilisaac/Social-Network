@@ -1,24 +1,37 @@
 
 const users = require("../models/users");
 const Sequelize = require("sequelize");
-
 const Publicacion = require("../models/publications")
+const comentary = require("../models/comentaries");
+const Reply = require("../models/replys");
 
-  exports.gethome = (req, res, next) => {
+exports.gethome = (req, res, next) => {
 
-    Publicacion.findAll({order: [['date','DESC']]}).then((result) =>{
-      const publicacion = result.map((result) => result.dataValues);
-      
-      res.render("home/index", { 
-        pageTitle: "Home",
-        homeActive: true,
-        publicacion: publicacion,
-        hasPublicacion: publicacion.length  <0,
-        });
-    })
-  };
+  Publicacion.findAll({include:[{model: comentary, include: Reply}]}).then((result) =>{
+    const publicacion = result.map((result) => result.dataValues);
+     Reply.findAll().then((result2) =>{
+        const reply = result2.map((result2) => result2.dataValues);   
+            res.render("home/index", { 
+            pageTitle: "Home",
+            homeActive: true,            
+            publicacion: publicacion,
+            repuesta: reply,
+            repuesta1: reply,
+            hasPublicacion: publicacion.length  <0,
+            });
+          }).catch(err=>{
+            console.log(err);
+            return res.redirect("/");
+          });
+    }).catch(err=>{
+      console.log(err);
+      return res.redirect("/");
+    });
+};
 
-  exports.PostHome = (req, res, next) => {
+  
+
+exports.PostHome = (req, res, next) => {
 
   const description = req.body.Publicacion;
   const img = req.file;
@@ -42,6 +55,71 @@ const Publicacion = require("../models/publications")
    return res.redirect("/");
  });
    
+};
+
+exports.PostComentarie = (req, res, next) => {
+
+  const comentarie = req.body.coment;
+  const publiId = req.body.publiId;
+  console.log(comentarie);
+
+  if(!comentarie){
+    
+    return res.redirect("/");
+  }
+
+  comentary.create({comentarie: comentarie, publicacioneId: publiId} ).then(result=>{
+    
+    return res.redirect("/");
+   
+ }).catch(err=>{
+   console.log(err);
+   return res.redirect("/");
+ });
+   
+};
+
+exports.PostReply = (req, res, next) => {
+
+  const reply = req.body.reply;
+  let comentarieId = req.body.comentarieId;
+  let replyId = req.body.replyId;
+  console.log(reply);
+  console.log(replyId);
+  console.log(comentarieId);  
+
+  if(!reply ){
+    return res.redirect("/");
+  }
+
+  if(!comentarieId && !replyId){
+    return res.redirect("/");
+  }
+
+  if(!comentarieId){
+    Reply.create({reply: reply, repuestaId: replyId} ).then(result=>{
+    
+      return res.redirect("/");
+     
+   }).catch(err=>{
+     console.log(err);
+     return res.redirect("/");
+   });
+  }
+
+  if(!replyId){
+    Reply.create({reply: reply, comentarioId: comentarieId} ).then(result=>{
+    
+      return res.redirect("/");
+     
+   }).catch(err=>{
+     console.log(err);
+     return res.redirect("/");
+   });
+     
+  }
+
+  
 };
 
 exports.getEditPublication = (req, res, next) => {

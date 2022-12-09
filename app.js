@@ -5,6 +5,8 @@ const {engine} = require("express-handlebars");
 const sequelize = require("./util/database");
 const Usuario = require("./models/users");
 const Publication = require("./models/publications");
+const Comentary = require("./models/comentaries");
+const Reply = require("./models/replys");
 const session = require("express-session");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const multer = require("multer");
@@ -19,7 +21,7 @@ const Writers = require("./models/writers");
 */
 
 const compareHelpers = require("./util/helpers/hbs/compare");
-
+const queriesHelpers = require("./util/helpers/hbs/queries");
 const errorController = require("./controllers/errorController");
 
 
@@ -30,6 +32,7 @@ app.engine("hbs", engine({
     extname: "hbs",
     helpers:{
         equals: compareHelpers.equals,
+        foundReply: queriesHelpers.foundReply,
        },
     handlebars: allowInsecurePrototypeAccess(HANDLEBARS),
     }, 
@@ -94,6 +97,12 @@ app.use(errorController.Get404);
 
 Publication.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Publication);
+Comentary.belongsTo(Publication, {constraints: true, onDelete: "CASCADE"});
+Publication.hasMany(Comentary);
+Reply.belongsTo(Comentary, {constraints: true, onDelete: "CASCADE"});
+Comentary.hasMany(Reply);
+Reply.belongsTo(Reply, {constraints: false, onDelete: "CASCADE"});
+Reply.hasMany(Reply);
 
 /*
 Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
