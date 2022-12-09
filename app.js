@@ -80,6 +80,7 @@ const adminEditorialRouter = require("./routes/adminEditorial");
 */
 const loginRouter = require("./routes/login");
 const publicationRouter = require("./routes/publications");
+const friendsRouter = require("./routes/friends");
 const { truncate } = require('fs');
 /*
 app.use("/admin",adminBookRouter);
@@ -90,6 +91,7 @@ app.use(booksRouter);
 */
 app.use(publicationRouter);
 app.use(loginRouter);
+app.use(friendsRouter);
 
 
 app.use(errorController.Get404);
