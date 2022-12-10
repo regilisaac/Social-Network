@@ -4,6 +4,7 @@ const Sequelize = require("sequelize");
 const Publicacion = require("../models/publications")
 const comentary = require("../models/comentaries");
 const Reply = require("../models/replys");
+const Usuarios = require("../models/users");
 
 exports.gethome = (req, res, next) => {
 
@@ -11,13 +12,19 @@ exports.gethome = (req, res, next) => {
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   
-            res.render("home/index", { 
-            pageTitle: "Home",
-            homeActive: true,            
-            publicacion: publicacion,
-            repuesta: reply,
-            repuesta1: reply,
-            hasPublicacion: publicacion.length  <0,
+        Usuarios.findAll().then((result3) =>{
+          const user = result3.map((result3) => result3.dataValues);   
+              res.render("home/index", { 
+              pageTitle: "Home",
+              homeActive: true,            
+              publicacion: publicacion,
+              repuesta: reply,
+              users: user,
+              hasPublicacion: publicacion.length > 0,
+              });
+            }).catch(err=>{
+              console.log(err);
+              return res.redirect("/");
             });
           }).catch(err=>{
             console.log(err);
@@ -61,14 +68,15 @@ exports.PostComentarie = (req, res, next) => {
 
   const comentarie = req.body.coment;
   const publiId = req.body.publiId;
-  console.log(comentarie);
+  const userId = req.body.userId;
+ console.log(userId);
 
   if(!comentarie){
     
     return res.redirect("/");
   }
 
-  comentary.create({comentarie: comentarie, publicacioneId: publiId} ).then(result=>{
+  comentary.create({comentarie: comentarie, publicacioneId: publiId, usuarioId: userId} ).then(result=>{
     
     return res.redirect("/");
    
@@ -82,11 +90,10 @@ exports.PostComentarie = (req, res, next) => {
 exports.PostReply = (req, res, next) => {
 
   const reply = req.body.reply;
+  const userId = req.body.userId;
   let comentarieId = req.body.comentarieId;
   let replyId = req.body.replyId;
-  console.log(reply);
-  console.log(replyId);
-  console.log(comentarieId);  
+
 
   if(!reply ){
     return res.redirect("/");
@@ -97,7 +104,7 @@ exports.PostReply = (req, res, next) => {
   }
 
   if(!comentarieId){
-    Reply.create({reply: reply, repuestaId: replyId} ).then(result=>{
+    Reply.create({reply: reply, repuestaId: replyId, usuarioId: userId} ).then(result=>{
     
       return res.redirect("/");
      
@@ -108,7 +115,7 @@ exports.PostReply = (req, res, next) => {
   }
 
   if(!replyId){
-    Reply.create({reply: reply, comentarioId: comentarieId} ).then(result=>{
+    Reply.create({reply: reply, comentarioId: comentarieId, usuarioId: userId} ).then(result=>{
     
       return res.redirect("/");
      

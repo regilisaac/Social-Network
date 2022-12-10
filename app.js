@@ -32,7 +32,8 @@ app.engine("hbs", engine({
     extname: "hbs",
     helpers:{
         equals: compareHelpers.equals,
-        foundReply: queriesHelpers.foundReply,
+        findUser: compareHelpers.FindUser,
+        findImageProfile: compareHelpers.FindImageProfile,
        },
     handlebars: allowInsecurePrototypeAccess(HANDLEBARS),
     }, 
@@ -101,10 +102,14 @@ Publication.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Publication);
 Comentary.belongsTo(Publication, {constraints: true, onDelete: "CASCADE"});
 Publication.hasMany(Comentary);
+Comentary.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Comentary);
 Reply.belongsTo(Comentary, {constraints: true, onDelete: "CASCADE"});
 Comentary.hasMany(Reply);
 Reply.belongsTo(Reply, {constraints: false, onDelete: "CASCADE"});
 Reply.hasMany(Reply);
+Reply.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Reply);
 
 /*
 Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
