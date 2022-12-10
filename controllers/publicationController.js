@@ -6,9 +6,10 @@ const comentary = require("../models/comentaries");
 const Reply = require("../models/replys");
 const Usuarios = require("../models/users");
 
-exports.gethome = (req, res, next) => {
 
-  Publicacion.findAll({include:[{model: comentary, include: Reply}]}).then((result) =>{
+exports.gethome = (req, res, next) => {
+const user = req.session.userdata;
+  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: user.id}}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   
@@ -42,7 +43,7 @@ exports.PostHome = (req, res, next) => {
 
   const description = req.body.Publicacion;
   const img = req.file;
-  const userId = req.params.userId;
+  const userId = req.body.userId;
   const date = new Date().getTime();
   const fecha = new Date(date).toUTCString();
   
