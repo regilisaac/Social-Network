@@ -12,6 +12,9 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const multer = require("multer");
 const {v4: uuidv4} = require("uuid");
 const flash = require("connect-flash");
+const Friends =require("./models/friends");
+const Notifications=require("./models/Notifications");
+const getConfirmation = require("./util/helpers/hbs/friendConfirmation");
 
 /*
 const Books = require("./models/books");
@@ -33,6 +36,7 @@ app.engine("hbs", engine({
     helpers:{
         equals: compareHelpers.equals,
         foundReply: queriesHelpers.foundReply,
+        getConfirmationF: getConfirmation.friendConfirmation,
        },
     handlebars: allowInsecurePrototypeAccess(HANDLEBARS),
     }, 
@@ -105,6 +109,11 @@ Reply.belongsTo(Comentary, {constraints: true, onDelete: "CASCADE"});
 Comentary.hasMany(Reply);
 Reply.belongsTo(Reply, {constraints: false, onDelete: "CASCADE"});
 Reply.hasMany(Reply);
+Friends.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Friends);
+
+Notifications.belongsTo(Friends, { constraint: true, onDelete: "CASCADE"},);
+Friends.hasOne(Notifications, {foreignKey: 'friendId'});
 
 /*
 Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
