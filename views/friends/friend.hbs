@@ -1,12 +1,36 @@
 <main>
 
-<form action="/agg-friends" method="post">
+<form action="/searchNewFriend" method="post">
     <div class="form-group">
         <label for="Friends">Agregar Amigos</label>
-        <input type="text" class="form-control mt-1" placeholder="Escribe el usuario que deseas agregar" name="AggAmigo" required><button class="mt-2 btn btn-primary mb-3">Agregar</button>
+        <input type="text" class="form-control mt-1" placeholder="Escribe el usuario que deseas agregar" name="userName" required><button class="mt-2 btn btn-primary mb-3">Agregar</button>
     </div>
-    <input type="hidden" value="{{userd.id}}">
+    <input type="hidden" name="userId" value="{{userd.id}}">
     </form>
+
+    <div class="card">
+<div class="items2">
+        {{#if usLength}}<p>Lo sentimos, no pudimos encontrar el usuario que buscas :C</p>{{/if}}
+
+        {{#if us}}
+            <div class="search-box">
+                {{#each us as |us key|}}
+
+<div class="card" style="width:400px">
+  <img class="card-img-top" src="{{us.img}}" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">Solilicitud enviada correctamente a {{us.name}} {{us.lastName}}</h4>
+    <p class="card-text">{{us.usuario}}</p>
+</div>
+
+
+                   
+                </div>
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+    </div>
 
     {{#each publicacion as |publicaciones|}}
   <div class="col">
