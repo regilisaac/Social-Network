@@ -77,24 +77,11 @@ const imageStorage = multer.diskStorage({
 app.use(multer({storage: imageStorage}).single("image"));
 
 
-/*
-const booksRouter = require("./routes/books");
-const adminBookRouter = require("./routes/adminBook");
-const adminCategoryRouter = require("./routes/adminCategory");
-const adminWriterRouter = require("./routes/adminWriter");
-const adminEditorialRouter = require("./routes/adminEditorial");
-*/
 const loginRouter = require("./routes/login");
 const publicationRouter = require("./routes/publications");
 const friendsRouter = require("./routes/friends");
 const { truncate } = require('fs');
-/*
-app.use("/admin",adminBookRouter);
-app.use("/admin",adminCategoryRouter);
-app.use("/admin",adminWriterRouter);
-app.use("/admin",adminEditorialRouter);
-app.use(booksRouter);
-*/
+
 app.use(publicationRouter);
 app.use(loginRouter);
 app.use(friendsRouter);
@@ -115,13 +102,6 @@ Reply.belongsTo(Reply, {constraints: false, onDelete: "CASCADE"});
 Reply.hasMany(Reply);
 Reply.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Reply);
-
-/*
-Books.belongsTo(Writers, {constraints: true, onDelete: "CASCADE"});
-Writers.hasMany(Books);
-Books.belongsTo(Editorials, {constraints: true, onDelete: "CASCADE"});
-Editorials.hasMany(Books);
-*/
 
 sequelize.sync().then(result => {
     

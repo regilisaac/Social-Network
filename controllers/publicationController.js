@@ -149,7 +149,7 @@ exports.getEditPublication = (req, res, next) => {
             publicacion: publicacion,
             publi: publi,
             editMode: edit,
-            hasPublicacion: publicacion.length  <0,
+            hasPublicacion: publicacion.length > 0,
             });    
           }).catch((err) => { 
             console.log(err);

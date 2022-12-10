@@ -1,35 +1,43 @@
 const users = require("../models/users");
 const Sequelize = require("sequelize");
 const friend = require("../models/friends");
-const Publicacion = require("../models/publications");
+const Publicacion = require("../models/publications")
+const comentary = require("../models/comentaries");
+const Reply = require("../models/replys");
+const Usuarios = require("../models/users");
 const { Op } =require("sequelize");
 const notiCount = require("../util/countNotifications");
 
 
 exports.getFriends = (req, res, next) => {
 
-  Publicacion.findAll({order: [['date','DESC']]}).then((result) =>{
-
-      let usuarios=[];
-    users.findAll().then(result1 =>{
-    
-       result1.map((result1) => usuarios.push(result1.dataValues) );
-  
-    })
-    .catch((err) => {
-        console.log(err);
-      });
-
+  Publicacion.findAll({include:[{model: comentary, include: Reply}]}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
+     Reply.findAll().then((result2) =>{
+        const reply = result2.map((result2) => result2.dataValues);   
+        Usuarios.findAll().then((result3) =>{
+          const user = result3.map((result3) => result3.dataValues);   
     
-    res.render("friends/friend", { 
-      pageTitle: "Friends",
-      friendsActive: true,
-      publicacion: publicacion,
-      usuarios: usuarios,
-      hasPublicacion: publicacion.length  <0,
-      });
-  })
+            res.render("friends/friend", { 
+              pageTitle: "Friends",
+              friendsActive: true,
+              publicacion: publicacion,
+              repuesta: reply,
+              users: user,
+              hasPublicacion: publicacion.length > 0,
+              });
+            }).catch(err=>{
+              console.log(err);
+              return res.redirect("/friends");
+            });
+          }).catch(err=>{
+            console.log(err);
+            return res.redirect("/friends");
+          });
+    }).catch(err=>{
+      console.log(err);
+      return res.redirect("/friends");
+    });
 };
 
   module.exports.searchNewFriendHome = (req, res, next) => {
