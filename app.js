@@ -80,12 +80,13 @@ app.use(multer({storage: imageStorage}).single("image"));
 const loginRouter = require("./routes/login");
 const publicationRouter = require("./routes/publications");
 const friendsRouter = require("./routes/friends");
+const notificationsRouter = require("./routes/notification");
 const { truncate } = require('fs');
 
 app.use(publicationRouter);
 app.use(loginRouter);
 app.use(friendsRouter);
-
+app.use(notificationsRouter);
 
 app.use(errorController.Get404);
 
@@ -102,6 +103,10 @@ Reply.belongsTo(Reply, {constraints: false, onDelete: "CASCADE"});
 Reply.hasMany(Reply);
 Reply.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Reply);
+Friends.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Friends);
+Friends.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Friends, { foreignKey: 'FriendId' });
 
 sequelize.sync().then(result => {
     

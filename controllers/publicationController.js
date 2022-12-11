@@ -5,23 +5,30 @@ const Publicacion = require("../models/publications")
 const comentary = require("../models/comentaries");
 const Reply = require("../models/replys");
 const Usuarios = require("../models/users");
-
+const Friends = require("../models/friends");
 
 exports.gethome = (req, res, next) => {
-const user = req.session.userdata;
-  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: user.id}}).then((result) =>{
+const userId = req.session.userdata;
+  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: userId.id}}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   
         Usuarios.findAll().then((result3) =>{
           const user = result3.map((result3) => result3.dataValues);   
-              res.render("home/index", { 
-              pageTitle: "Home",
-              homeActive: true,            
-              publicacion: publicacion,
-              repuesta: reply,
-              users: user,
-              hasPublicacion: publicacion.length > 0,
+          Friends.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
+            const friend = result4.map((result4) => result4.dataValues);   
+                res.render("home/index", { 
+                pageTitle: "Home",
+                homeActive: true,            
+                publicacion: publicacion,
+                repuesta: reply,
+                users: user,
+                notofications: friend.length,
+                hasPublicacion: publicacion.length > 0,
+                });
+              }).catch(err=>{
+                console.log(err);
+                return res.redirect("/");
               });
             }).catch(err=>{
               console.log(err);

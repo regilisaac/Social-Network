@@ -9,10 +9,10 @@ $(".delete-publi").on("click", function(e){
 })
  
 
-$(".delete-category").on("click", function(e){
+$(".delete-friend").on("click", function(e){
     e.preventDefault();
-    if(confirm("esta seguro que quieres eliminar esta categoria?")){
-       $(this).closest("#form-delete-category").submit();
+    if(confirm("esta seguro que quieres eliminar este amigo?")){
+       $(this).closest("#form-delete-friend").submit();
     }
 })
 

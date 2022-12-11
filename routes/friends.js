@@ -7,9 +7,9 @@ const friendsController = require('../controllers/FriendsController');
 const isAuth = require("../middlewares/is-auth");
 
 router.get("/friends", isAuth,  friendsController.getFriends);
-//router.post("/agg-friends", isAuth, friendsController.PostFriend);
-router.get('/searchNewFriendHome/:userID',isAuth, friendsController.searchNewFriendHome);
-router.post('/searchNewFriend', friendsController.searchNewFriend);
-
+router.post('/addfriend',isAuth, friendsController.postAddFriend);
+router.get('/foundfriend',isAuth, friendsController.getfoundFriend);
+router.post('/foundfriend',isAuth, friendsController.getfoundedFriend);
+router.post('/deletefriend',isAuth, friendsController.postDeleteFriend);
 
 module.exports = router;

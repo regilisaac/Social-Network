@@ -13,3 +13,8 @@ exports.FindImageProfile = (userId, users) => {
     return user.img;
   };
 
+  exports.FindImageProfile = (userId, users) => {
+    const user = users.find((user) => user.id == userId);
+    return user.img;
+  };
+

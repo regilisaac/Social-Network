@@ -1,6 +1,6 @@
 const users = require("../models/users");
 const Sequelize = require("sequelize");
-const friend = require("../models/friends");
+const Friend = require("../models/friends");
 const Publicacion = require("../models/publications")
 const comentary = require("../models/comentaries");
 const Reply = require("../models/replys");
@@ -10,22 +10,38 @@ const notiCount = require("../util/countNotifications");
 
 
 exports.getFriends = (req, res, next) => {
-
+  const userId = req.session.userdata;
   Publicacion.findAll({include:[{model: comentary, include: Reply}]}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   
         Usuarios.findAll().then((result3) =>{
           const user = result3.map((result3) => result3.dataValues);   
-    
-            res.render("friends/friend", { 
-              pageTitle: "Friends",
-              friendsActive: true,
-              publicacion: publicacion,
-              repuesta: reply,
-              users: user,
-              hasPublicacion: publicacion.length > 0,
-              });
+          Friend.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
+            const friend = result4.map((result4) => result4.dataValues); 
+            Friend.findAll().then((result5) =>{
+              const friends = result5.map((result5) => result5.dataValues);
+                res.render("friends/friend", { 
+                  pageTitle: "Friends",
+                  friendsActive: true,
+                  publicacion: publicacion,
+                  repuesta: reply,
+                  users: user,
+                  friends: friends,
+                  notofications: friend.length,
+                  hasPublicacion: publicacion.length > 0,
+                  });
+                }).catch(err=>{
+                  console.log(err);
+                  return res.redirect("/");
+                });
+                }).catch(err=>{
+                  console.log(err);
+                  return res.redirect("/");
+                });
+              }).catch(err=>{
+                console.log(err);
+                return res.redirect("/friends");
             }).catch(err=>{
               console.log(err);
               return res.redirect("/friends");
@@ -40,73 +56,70 @@ exports.getFriends = (req, res, next) => {
     });
 };
 
-  module.exports.searchNewFriendHome = (req, res, next) => {
+exports.getfoundFriend = (req, res, next) => {
+    
+            res.render("friends/founduser", { 
+              pageTitle: "Buscar Amigos",
+              friendsActive: true,
+              });
+};
 
-    users.findOne({ where: { id: userId} }).then(async (f) => {
-      const currentlyUser = f.dataValues;
-  
-      res.render("friends/friend", {
-        pageTitle: "Search new Friend",
-        userId: req.user.id,
-        user: currentlyUser,
-        nCount1: await notiCount.countNotifications(userId),
-      });
-  
-    }).catch((err) => console.log(err));
-  };
-  
-  module.exports.searchNewFriend = (req, res, next) => {
-    const userId = req.body.userId;
-    let noMoreUno;
-    //user
-    users.findAll({
-      where: {
-        [Op.or]: 
-        [
-          { name: { [Op.like]: req.body.userName } },
-          { usuario: { [Op.like]: req.body.userName } },
-          { lastname: { [Op.like]: req.body.userName } }
-        ],
-        [Op.and]: [{ estado: 1 }]
-      }})
-    .then((nf) => nf.map((nf) => nf.dataValues))
-    .then((nf) => nf.filter((nf) => nf.id != userId))
-    .then((us) =>{
-  
-        const userF = us.map((uf) => uf.id);
-        const userFriends = us;
-  
-        console.log('\n\n\n\n\n\n userF',userF,'\n\n\n\n\n\n');
-        console.log('\n\n\n\n\n\n',userFriends,userFriends,'\n\n\n\n\n\n');
+exports.getfoundedFriend = (req, res, next) => {
+  const user = req.body.user;
+  Usuarios.findAll({ where: { usuario: { [Op.like]: `${user+'%'}` } }}).then((result) =>{
+    const user = result.map((result) => result.dataValues);
+      res.render("friends/founduser", { 
+        pageTitle: "Buscar Amigos",
+        friendsActive: true,
+        foundedFriend: true,
+        users: user,
+        });
+  }).catch(err=>{
+    console.log(err);
+    return res.redirect("/friends");
+  });
 
-        friend.create({isAccepted: false, senderID: userId, receptorID: userF});
+};
 
-        console.log("Envia: " +userId + "Recibe: "+ userF);
-  
-        friend.findAll({where: {[Op.or]: [{ [Op.and]: [{ senderID: userId }, { receptorID: userF }] },{ [Op.and]: [{ senderID: userF }, { receptorID: userId }]}]}})
-        .then((f) => f.map((fr) => {
-  
-          !fr.dataValues.isAccepted? noMoreUno = true : noMoreUno;//mas de una solicitud de amistad
-          return fr.dataValues.isAccepted // si ya es amigo o no
-        }))
-        .then(async (ac) => {
-          users.findOne({ where: { id: userId } }).then(async (f) => {
-            const currentlyUser = f.dataValues;
-  
-            res.render("friends/friend", {
-              pageTitle: "Search new Friend",
-              userId: userId,
-              user: currentlyUser,
-              ac,
-              usLength: userFriends.length <= 0 ? true : false,
-              us: userFriends,
-              nCount1: await notiCount.countNotifications(userId),
-              noMoreUno
-            });
-  
-          }).catch((err) => console.log(err));
-        }).catch((err) => console.log(err));
-      }).catch((err) => console.log(err));
-  };
-  
-  
+exports.postAddFriend = (req, res, next) => {
+  const friendId = req.body.friendId;
+  const userId = req.body.userId;
+ console.log(friendId);
+ console.log(userId);
+  if(!friendId){
+    
+    return res.redirect("/friends");
+  }
+  if(!userId){
+    
+    return res.redirect("/friends");
+  }
+
+  Friend.create({usuarioId: userId, FriendId: friendId, estado: 0} ).then(result=>{
+    
+    return res.redirect("/friends");
+   
+ }).catch(err=>{
+   console.log(err);
+   return res.redirect("/friends");
+ });
+   
+};
+
+exports.postDeleteFriend = (req, res, next) => {
+    
+  const friendId = req.body.friendId;
+  const userId = req.body.userId;
+  const frId = req.body.frId;
+
+
+  Friend.destroy({where: {id: friendId}}).then((result) => {
+    Friend.destroy({where: {usuarioId: frId ,FriendId: userId}}).then((result) => {
+      res.redirect("/friends");
+  }).catch((err) => {
+      console.log(err);
+  });
+  }).catch((err) => {
+      console.log(err);
+  });
+};

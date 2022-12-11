@@ -26,7 +26,16 @@
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
           <li><a href="/friends" class="nav-link px-2 link-dark">Amigos</a></li>
-          <li><a href="#" class="nav-link px-2 link-dark">Centro de notificaciones</a></li>
+          <li><a href="/notification" class="nav-link px-2 link-dark position-relative"><i class='bx bx-bell icon'>
+                              
+                                <span class="position-absolute top-20 start-100 translate-middle badge rounded-pill bg-danger" id="nnSpan">
+                                   {{notofications}}
+                                </span>
+                                
+                            </i>
+                            <span class="textDesign nav-text">Centro de notificaciones</span> </a>
+     </li>
+     <li> &nbsp;  &nbsp;</li>
           <li><a href="#" class="nav-link px-2 link-dark">Eventos</a></li>
         </ul>
 
@@ -53,7 +62,7 @@
     </div>
   </header>
   {{/if}}
-<main class="container">
+<main >
      {{#if hasErrorMessages}}
   <div><br><br></div>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">

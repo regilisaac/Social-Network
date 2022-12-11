@@ -146,3 +146,21 @@
   .btn-center{
     text-align: center;
 }
+.btn-center2{
+  margin-left: 20px;
+  text-align: center;
+}
+
+.img-user img{
+  width: 200px; 
+  height: 200px; 
+  border-radius: 50%;  
+}
+.center{
+  margin: auto;
+  align-items: center;
+  text-align: center;
+}
+
+
+
