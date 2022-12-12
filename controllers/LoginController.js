@@ -192,12 +192,7 @@ exports.PostSignup = (req, res, next) => {
       req.flash("errors","El usuario ya existe");
       return res.redirect("/signup");
     }
- 
-  Usuarios.findOne({where: {correo: correo}}).then(user=>{
-    if(user){
-      req.flash("errors","Ya existe un usuario con ese correo");
-      return res.redirect("/signup");
-    }
+
   
   bcrypt.hash(contrasena,12).then(hasedPassword =>{
     if(!img){
@@ -218,10 +213,6 @@ exports.PostSignup = (req, res, next) => {
               console.log(err3);
       });
       
-   }).catch(err=>{
-     console.log(err);
-     return res.redirect("/signup");
-   });
   }).catch(err=>{
     console.log(err);
     return res.redirect("/signup");

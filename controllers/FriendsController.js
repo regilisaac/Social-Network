@@ -189,3 +189,69 @@ exports.postDeleteFriend = (req, res, next) => {
       console.log(err);
   });
 };
+
+
+exports.PostComentarie = (req, res, next) => {
+
+  const comentarie = req.body.coment;
+  const publiId = req.body.publiId;
+  const userId = req.body.userId;
+ console.log(userId);
+
+  if(!comentarie){
+    
+    return res.redirect("/friends");
+  }
+
+  comentary.create({comentarie: comentarie, publicacioneId: publiId, usuarioId: userId} ).then(result=>{
+    
+    return res.redirect("/friends");
+   
+ }).catch(err=>{
+   console.log(err);
+   return res.redirect("/friends");
+ });
+   
+};
+
+exports.PostReply = (req, res, next) => {
+
+  const reply = req.body.reply;
+  const userId = req.body.userId;
+  let comentarieId = req.body.comentarieId;
+  let replyId = req.body.replyId;
+
+
+  if(!reply ){
+    return res.redirect("/friends");
+  }
+
+  if(!comentarieId && !replyId){
+    return res.redirect("/friends");
+  }
+
+  if(!comentarieId){
+    Reply.create({reply: reply, repuestaId: replyId, usuarioId: userId} ).then(result=>{
+    
+      return res.redirect("/friends");
+     
+   }).catch(err=>{
+     console.log(err);
+     return res.redirect("/friends");
+   });
+  }
+
+  if(!replyId){
+    Reply.create({reply: reply, comentarioId: comentarieId, usuarioId: userId} ).then(result=>{
+    
+      return res.redirect("/friends");
+     
+   }).catch(err=>{
+     console.log(err);
+     return res.redirect("/friends");
+   });
+     
+  }
+
+  
+};
