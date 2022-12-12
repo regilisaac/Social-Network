@@ -49,10 +49,11 @@ exports.postAceptFriend = (req, res, next) => {
 
 exports.postDenyFriend = (req, res, next) => {
   const id = req.body.friendId;
-
-  Friends.update({estado: 2}, {where: {id: id}})
+  
+  Friends.destroy({where: {id: id}})
   .then((result) => {
       return res.redirect("/friends");
+
   }).catch((err) => {
       console.log(err);
   });

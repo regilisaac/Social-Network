@@ -9,7 +9,7 @@ const Friends = require("../models/friends");
 
 exports.gethome = (req, res, next) => {
 const userId = req.session.userdata;
-  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: userId.id}}).then((result) =>{
+  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: userId.id} ,order: [["createdAt", "DESC"]]}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   

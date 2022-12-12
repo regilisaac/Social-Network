@@ -16,12 +16,13 @@
   <div id="container-html" class="col-8 offset-2">
   <div class="mt-3">
     {{#if hasPublicacion}}
-  {{#each friends as |friend|}}
-  {{#if (equals friend.usuarioId ../userd.id)}}
+  
+  {{#each publicacion as |publicaciones|}}
+  {{#each ../friends as |friend|}}
+  {{#if (equals friend.usuarioId ../../userd.id)}}
   {{#if (equals friend.estado "1")}}
-  {{#each ../publicacion as |publicaciones|}}
   {{#if (equals publicaciones.usuarioId friend.FriendId)}}
-   <div class="card" >
+   <div class="card mb-4" >
     <div class="card-body">
      <div class="head">
       <img src="{{findImageProfile publicaciones.usuarioId ../../users}}">
@@ -502,9 +503,9 @@
 {{/each}}
 </div>
 {{/if}}
+{{/if}}
+{{/if}}
 {{/each}}
-{{/if}}
-{{/if}}
 {{/each}}
 <div> <br> <br> </div>
 
@@ -516,7 +517,7 @@
 </div>
 </div>
 </div>
-<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 350px;">
   <br> <br> <br><br><br><br>
     <div href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
@@ -527,37 +528,37 @@
       {{#if (equals friend.usuarioId ../userd.id)}}
       {{#if (equals friend.estado "1")}}
       {{#each ../users as |user|}}
-      {{#if (equals friend.FriendId user.id)}}
+      {{#if (equals user.id  friend.FriendId)}}
       <div  class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-        <div class="head">
-        <div class="d-flex w-100 ">
+        <div class="head2">
+          <div class="d-flex w-80 ">
           <img src="{{user.img}}" >
-         <p class="mb-1"> {{user.usuario}}</div></p>
-        
-        <div class="row"
+         <p class="mb-1"> {{user.usuario}}</p>
+        <div class="row">
         <div class="col-9">
-        <div class="col-10  mb-1 small" style="margin-right: 80px;"><strong>Nombre: </strong>{{user.name}}</div>
-        <div class="col-10 mb-1 small" style="margin-right: 80px;" ><strong>Apellido: </strong>{{user.lastname}}</div>
+        <div class="col-10  mb-1 small" style="margin-left: 15px;"><strong>Nombre: </strong>{{user.name}}</div>
+        <div class="col-10 mb-1 small" style="margin-left: 10px;" ><strong>Apellido: </strong>{{user.lastname}}</div>
         </div>
         <div class="col-3">
          <form method="POST" id="form-delete-friend" action="/deletefriend" class="form-inline">
     <input type="hidden" name="friendId" value= "{{friend.id}}" />
     <input type="hidden" name="userId" value= "{{../../userd.id}}" />
      <input type="hidden" name="frId" value= "{{friend.FriendId}}" />
-    <button type="submit"  class="btn btn-danger  delete-friend">Eliminar</button> 
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-</form>
+    <button type="submit"  class="btn btn-sm btn-danger delete-friend">Eliminar</button> 
+      </form>
+       </div>
       </div>
-      </div>
+    </div>
+    </div>
+    </div>
       {{/if}}
       {{/each}}
       {{/if}}
       {{/if}}
       {{/each}}
+      </div>
+      </div>
+      </div>
     </div>
   </div>
 </main>

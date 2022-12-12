@@ -11,11 +11,11 @@ const notiCount = require("../util/countNotifications");
 
 exports.getFriends = (req, res, next) => {
   const userId = req.session.userdata;
-  Publicacion.findAll({include:[{model: comentary, include: Reply}]}).then((result) =>{
+  Publicacion.findAll({include:[{model: comentary, include: Reply}], order: [["createdAt", "DESC"]]}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
      Reply.findAll().then((result2) =>{
         const reply = result2.map((result2) => result2.dataValues);   
-        Usuarios.findAll().then((result3) =>{
+        Usuarios.findAll({order: [["createdAt", "DESC"]]}).then((result3) =>{
           const user = result3.map((result3) => result3.dataValues);   
           Friend.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
             const friend = result4.map((result4) => result4.dataValues); 
@@ -57,23 +57,46 @@ exports.getFriends = (req, res, next) => {
 };
 
 exports.getfoundFriend = (req, res, next) => {
-    
+  const userId = req.session.userdata;
+  Friend.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
+    const friend = result4.map((result4) => result4.dataValues); 
             res.render("friends/founduser", { 
               pageTitle: "Buscar Amigos",
               friendsActive: true,
+              foundedFriend: true,
+              notofications: friend.length,
               });
+            }).catch(err=>{
+              console.log(err);
+              return res.redirect("/friends");
+          })
 };
 
 exports.getfoundedFriend = (req, res, next) => {
-  const user = req.body.user;
-  Usuarios.findAll({ where: { usuario: { [Op.like]: `${user+'%'}` } }}).then((result) =>{
+  const userio = req.body.user;
+  const userId = req.session.userdata;
+  Usuarios.findAll({ where: { usuario: { [Op.like]: `${userio+'%'}` } }}).then((result) =>{
     const user = result.map((result) => result.dataValues);
-      res.render("friends/founduser", { 
-        pageTitle: "Buscar Amigos",
-        friendsActive: true,
-        foundedFriend: true,
-        users: user,
-        });
+    Friend.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
+      const friend = result4.map((result4) => result4.dataValues); 
+      Friend.findAll().then((result5) =>{
+        const friends = result5.map((result5) => result5.dataValues);
+          res.render("friends/founduser", { 
+            pageTitle: "Buscar Amigos",
+            friendsActive: true,
+            foundedFriend: user.length > 0,
+            users: user,
+            notofications: friend.length,
+            friends: friends,
+            });
+          }).catch(err=>{
+            console.log(err);
+            return res.redirect("/");
+          });
+      }).catch(err=>{
+        console.log(err);
+        return res.redirect("/friends");
+    })
   }).catch(err=>{
     console.log(err);
     return res.redirect("/friends");
@@ -95,12 +118,55 @@ exports.postAddFriend = (req, res, next) => {
     return res.redirect("/friends");
   }
 
-  Friend.create({usuarioId: userId, FriendId: friendId, estado: 0} ).then(result=>{
+     Friend.findOne({where: {usuarioId: userId, FriendId: friendId}}).then((result1) => {
+      if( result1 == null){
+        
+
+          Friend.create({usuarioId: userId, FriendId: friendId, estado: 0} ).then(result=>{
+            return res.redirect("/friends");
+            
+  
+          }).catch(err=>{
+            console.log(err);
+            return res.redirect("/friends");
+          });
+        }
+        else{
+          
+          const friend1 = result1.dataValues;
+       
+        if(friend1.estado == 1){
+          
+        req.flash("errors","Ya son amigos")
+        return res.redirect("/friends");
+            
+        } 
+        if(friend1.estado == 0){
+          
+          req.flash("errors","Ya se envio una solicitud")
+          return res.redirect("/friends");
+              
+          } 
+
+          if(friend1.estado == 2){
+          
+            Friend.create({usuarioId: userId, FriendId: friendId, estado: 0} ).then(result=>{
+              return res.redirect("/friends");
+              
     
-    return res.redirect("/friends");
-   
+            }).catch(err=>{
+              console.log(err);
+              return res.redirect("/friends");
+            });
+                
+            } 
+        }
+
+        
+        
  }).catch(err=>{
    console.log(err);
+   console.log("uuu");
    return res.redirect("/friends");
  });
    

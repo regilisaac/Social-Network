@@ -13,8 +13,6 @@ const multer = require("multer");
 const {v4: uuidv4} = require("uuid");
 const flash = require("connect-flash");
 const Friends =require("./models/friends");
-const Notifications=require("./models/Notifications");
-const getConfirmation = require("./util/helpers/hbs/friendConfirmation");
 
 /*
 const Books = require("./models/books");
@@ -37,8 +35,7 @@ app.engine("hbs", engine({
         equals: compareHelpers.equals,
         findUser: compareHelpers.FindUser,
         findImageProfile: compareHelpers.FindImageProfile,
-        foundReply: queriesHelpers.foundReply,
-        getConfirmationF: getConfirmation.friendConfirmation,
+    
        },
     handlebars: allowInsecurePrototypeAccess(HANDLEBARS),
     }, 

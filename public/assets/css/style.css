@@ -115,6 +115,25 @@
   margin: auto;
 }
 
+.head2{
+  display: flex;
+  align-items: center;
+}
+
+.head2 img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.head2 p{
+  font-weight: 500;
+  margin-bottom: -5px;
+  color: #000;
+  font-size: 20px;
+}
+
    .head img{
     width: 50px;
     height: 50px;
