@@ -13,13 +13,8 @@ const multer = require("multer");
 const {v4: uuidv4} = require("uuid");
 const flash = require("connect-flash");
 const Friends =require("./models/friends");
-
-/*
-const Books = require("./models/books");
-const Categorys = require("./models/categorys");
-const Editorials = require("./models/editorials");
-const Writers = require("./models/writers");
-*/
+const Events =require("./models/events");
+const DEvents =require("./models/detailsEvents");
 
 const compareHelpers = require("./util/helpers/hbs/compare");
 const queriesHelpers = require("./util/helpers/hbs/queries");
@@ -78,12 +73,14 @@ const loginRouter = require("./routes/login");
 const publicationRouter = require("./routes/publications");
 const friendsRouter = require("./routes/friends");
 const notificationsRouter = require("./routes/notification");
+const eventsRouter = require("./routes/events");
 const { truncate } = require('fs');
 
 app.use(publicationRouter);
 app.use(loginRouter);
 app.use(friendsRouter);
 app.use(notificationsRouter);
+app.use(eventsRouter);
 
 app.use(errorController.Get404);
 
@@ -104,6 +101,12 @@ Friends.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Friends);
 Friends.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
 Usuario.hasMany(Friends, { foreignKey: 'FriendId' });
+Events.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(Events);
+DEvents.belongsTo(Events, {constraints: true, onDelete: "CASCADE"});
+Events.hasMany(DEvents);
+DEvents.belongsTo(Usuario, {constraints: true, onDelete: "CASCADE"});
+Usuario.hasMany(DEvents, { foreignKey: 'FriendId' });
 
 sequelize.sync().then(result => {
     

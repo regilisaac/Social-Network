@@ -6,7 +6,7 @@ const comentary = require("../models/comentaries");
 const Reply = require("../models/replys");
 const Usuarios = require("../models/users");
 const { Op } =require("sequelize");
-const notiCount = require("../util/countNotifications");
+
 
 
 exports.getFriends = (req, res, next) => {
@@ -75,12 +75,17 @@ exports.getfoundFriend = (req, res, next) => {
 exports.getfoundedFriend = (req, res, next) => {
   const userio = req.body.user;
   const userId = req.session.userdata;
+  if(!userio){
+    req.flash("errors","Debes ingresar un nombre de usuario")
+    return res.redirect("/foundfriend");
+  }
   Usuarios.findAll({ where: { usuario: { [Op.like]: `${userio+'%'}` } }}).then((result) =>{
     const user = result.map((result) => result.dataValues);
     Friend.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
       const friend = result4.map((result4) => result4.dataValues); 
       Friend.findAll().then((result5) =>{
         const friends = result5.map((result5) => result5.dataValues);
+        
           res.render("friends/founduser", { 
             pageTitle: "Buscar Amigos",
             friendsActive: true,
