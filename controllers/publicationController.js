@@ -140,9 +140,9 @@ exports.PostReply = (req, res, next) => {
 exports.getEditPublication = (req, res, next) => {
     const edit = req.query.edit;
     const publiId = req.params.publiId;
+    const userId = req.session.userdata;
 
-
-  Publicacion.findAll().then((result) =>{
+  Publicacion.findAll({include:[{model: comentary, include: Reply}], where: {usuarioId: userId.id} ,order: [["createdAt", "DESC"]]}).then((result) =>{
     const publicacion = result.map((result) => result.dataValues);
 
     Publicacion.findOne({where: {id: publiId}}).then((result) => {
@@ -151,21 +151,39 @@ exports.getEditPublication = (req, res, next) => {
             req.flash("errors","No se ha encontrado la publicación");
             return res.redirect("/");
         }
-          res.render("home/index", { 
-            pageTitle: "Home",
-            homeActive: true,
-            publicacion: publicacion,
-            publi: publi,
-            editMode: edit,
-            hasPublicacion: publicacion.length > 0,
-            });    
+        Reply.findAll().then((result2) =>{
+          const reply = result2.map((result2) => result2.dataValues);   
+          Usuarios.findAll().then((result3) =>{
+            const user = result3.map((result3) => result3.dataValues);   
+            Friends.findAll({where: {FriendId: userId.id, estado: "0"}}).then((result4) =>{
+              const friend = result4.map((result4) => result4.dataValues);  
+                  res.render("home/index", { 
+                    pageTitle: "Home",
+                    homeActive: true,
+                    publicacion: publicacion,
+                    publi: publi,
+                    editMode: edit,
+                    repuesta: reply,
+                    users: user,
+                    notofications: friend.length,
+                    hasPublicacion: publicacion.length > 0,
+                    });   
+                  });
+                }).catch(err=>{
+                  console.log(err);
+                  return res.redirect("/");
+                });
+              }).catch(err=>{
+                console.log(err);
+                return res.redirect("/");
+              });
+            }).catch(err=>{
+              console.log(err);
+              return res.redirect("/");
+            }); 
           }).catch((err) => { 
             console.log(err);
-             });
-  
-    }).catch((err) => { 
-    console.log(err);
-     });
+         });
 
 };
 
