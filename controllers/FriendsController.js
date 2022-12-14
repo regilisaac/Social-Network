@@ -112,8 +112,6 @@ exports.getfoundedFriend = (req, res, next) => {
 exports.postAddFriend = (req, res, next) => {
   const friendId = req.body.friendId;
   const userId = req.body.userId;
- console.log(friendId);
- console.log(userId);
   if(!friendId){
     
     return res.redirect("/friends");
@@ -122,6 +120,14 @@ exports.postAddFriend = (req, res, next) => {
     
     return res.redirect("/friends");
   }
+
+  Usuarios.findOne({where: {id: friendId}})
+    .then(user =>{
+         
+    if(user.estado === "0"){
+        req.flash("errors","La cuenta no esta activa");
+        return res.redirect("/friends");
+      }
 
      Friend.findOne({where: {usuarioId: userId, FriendId: friendId}}).then((result1) => {
       if( result1 == null){
@@ -163,17 +169,19 @@ exports.postAddFriend = (req, res, next) => {
               console.log(err);
               return res.redirect("/friends");
             });
+        
                 
             } 
         }
-
-        
         
  }).catch(err=>{
    console.log(err);
-   console.log("uuu");
    return res.redirect("/friends");
  });
+}).catch(err=>{
+  console.log(err);
+  return res.redirect("/friends");
+});
    
 };
 

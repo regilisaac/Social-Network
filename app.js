@@ -30,7 +30,9 @@ app.engine("hbs", engine({
         equals: compareHelpers.equals,
         findUser: compareHelpers.FindUser,
         findImageProfile: compareHelpers.FindImageProfile,
-    
+        eventDate: compareHelpers.eventDate,
+        guests: compareHelpers.Guests,
+        findAnswer: compareHelpers.FindAnswer,
        },
     handlebars: allowInsecurePrototypeAccess(HANDLEBARS),
     }, 

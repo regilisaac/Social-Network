@@ -29,7 +29,7 @@
            </div>
            <div class="text-center">
               <input type="checkbox" name="elmimg" class="btn-check" id="btn-check" autocomplete="off">
-              <label class="btn btn-danger" for="btn-check">Eliminar imagen</label>
+              <label class="btn btn-outline-danger" for="btn-check">Eliminar imagen</label>
            </div>
          </div>
         {{/if}}       
@@ -76,11 +76,11 @@
   <div class="card-footer">
    <div class="row btn-center">
     <div class=" col-4 ">  
-      <a href="/edit-publications/{{publicaciones.id}}?edit=true" type="button" class="btn ms-5 btn-warning ">Editar</a>
+      <a href="/edit-publications/{{publicaciones.id}}?edit=true" type="button" class="btn ms-5 btn-outline-warning ">Editar</a>
     </div>
     <div class="col-4  ">
    <p>
-      <a class="btn  btn-primary  collapsed" href="#comentar" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="comentar">
+      <a class="btn  btn-outline-primary  collapsed" href="#comentar" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="comentar">
        Comentar
       </a>
     </p> 
@@ -88,7 +88,7 @@
   <div class="col-4 ">
   <form method="POST" id="form-delete-publi" action="/drop-publication" class="form-inline">
     <input type="hidden" name="publiId" value= "{{publicaciones.id}}" />
-    <button type="submit"  class="btn btn-danger  delete-publi">Eliminar</button> 
+    <button type="submit"  class="btn btn-outline-danger  delete-publi">Eliminar</button> 
     </div>
 </form>     
  </div>
@@ -123,7 +123,7 @@
     <p class="card-text">{{coment.dataValues.comentarie}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{coment.dataValues.id}}coment" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{coment.dataValues.id}}coment">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{coment.dataValues.id}}coment" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{coment.dataValues.id}}coment">
         Responder
       </a>
     </p> 
@@ -161,7 +161,7 @@
     <p class="card-text">{{reply.dataValues.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{reply.dataValues.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{coment.dataValues.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{reply.dataValues.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{coment.dataValues.id}}">
         Responder
       </a>
     </p> 
@@ -199,7 +199,7 @@
     <p class="card-text">{{replys.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys.id}}">
         Responder
       </a>
     </p> 
@@ -236,7 +236,7 @@
     <p class="card-text">{{replys2.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys2.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys2.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys2.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys2.id}}">
         Responder
       </a>
     </p> 
@@ -273,7 +273,7 @@
     <p class="card-text">{{replys3.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys3.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys3.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys3.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys3.id}}">
         Responder
       </a>
     </p> 
@@ -310,7 +310,7 @@
     <p class="card-text">{{replys4.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys4.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys4.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys4.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys4.id}}">
         Responder
       </a>
     </p> 
@@ -347,7 +347,7 @@
     <p class="card-text">{{replys5.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys5.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys5.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys5.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys5.id}}">
         Responder
       </a>
     </p> 
@@ -384,7 +384,7 @@
     <p class="card-text">{{replys6.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys6.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys6.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys6.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys6.id}}">
         Responder
       </a>
     </p> 
@@ -421,7 +421,7 @@
     <p class="card-text">{{replys7.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys7.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys7.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys7.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys7.id}}">
         Responder
       </a>
     </p> 
@@ -458,7 +458,7 @@
     <p class="card-text">{{replys8.reply}}</p>
     <div class="mb-3">
     <p>
-      <a class="btn btn-success float-end collapsed" href="#reponder{{replys8.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys8.id}}">
+      <a class="btn btn-outline-success float-end collapsed" href="#reponder{{replys8.id}}" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="reponder{{replys8.id}}">
         Responder
       </a>
     </p> 

@@ -16,17 +16,17 @@ $(".delete-friend").on("click", function(e){
     }
 })
 
-$(".delete-writer").on("click", function(e){
+$(".delete-event").on("click", function(e){
     e.preventDefault();
-    if(confirm("esta seguro que quieres eliminar este autor?")){
-    $(this).closest("#form-delete-writer").submit();
+    if(confirm("esta seguro que quieres eliminar este evento?")){
+    $(this).closest("#form-delete-event").submit();
     }
 })
 
-$(".delete-editorial").on("click", function(e){
+$(".delete-guests").on("click", function(e){
     e.preventDefault();
-    if(confirm("esta seguro que quieres eliminar esta editorial?")){
-    $(this).closest("#form-delete-editorial").submit();
+    if(confirm("esta seguro que quieres desinvitar a su amigo?")){
+    $(this).closest("#form-delete-guests").submit();
     }
 })
 

@@ -14,7 +14,7 @@ const Events = sequelize.define("events",{
     allowNull: true
  },
   date:{
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
       allowNull: false
   },
   place:{
