@@ -54,28 +54,28 @@
                                                                         {{#if (equals devent.eventId  event.id )}} 
                                                                             {{#if (equals devent.FriendId ../../userd.id )}} 
                                                                                     {{#if (equals devent.response "1" )}}
-                                                                                        <select id="status" class="form-select" name="response" >
+                                                                                        <select id="status" class="form-select" name="response" {{#if (eventDate event.date)}}{{else}} disabled {{/if}}>
                                                                                         <option value=" "  >Seleccione una respuesta</option>
                                                                                         <option value="1" selected >Estare ahi</option>
                                                                                         <option value="2">Talvez</option>
                                                                                         <option value="3">No ire</option>
                                                                                         </select>
                                                                                     {{else if (equals devent.response "2" )}}
-                                                                                        <select id="status" class="form-select" name="response">
+                                                                                        <select id="status" class="form-select" name="response"  {{#if (eventDate event.date)}}{{else}} disabled {{/if}}>
                                                                                         <option value=" "  >Seleccione una respuesta</option>
                                                                                         <option value="1" >Estare ahi</option>
                                                                                         <option value="2" selected>Talvez</option>
                                                                                         <option value="3">No ire</option>
                                                                                         </select>
                                                                                     {{else if (equals devent.response "3")}}
-                                                                                        <select id="status" class="form-select" name="response">
+                                                                                        <select id="status" class="form-select" name="response"  {{#if (eventDate event.date)}}{{else}} disabled {{/if}}>
                                                                                         <option value=" " selected >Seleccione una respuesta</option>
                                                                                         <option value="1" >Estare ahi</option>
                                                                                         <option value="2">Talvez</option>
                                                                                         <option value="3" selected>No ire</option>
                                                                                         </select>
                                                                                     {{else}}
-                                                                                    <select id="status" class="form-select" name="response">
+                                                                                    <select id="status" class="form-select" name="response"  {{#if (eventDate event.date)}}{{else}} disabled {{/if}}>
                                                                                         <option value=" " selected >Seleccione una respuesta</option>
                                                                                         <option value="1" >Estare ahi</option>
                                                                                         <option value="2">Talvez</option>
