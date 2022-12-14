@@ -28,8 +28,14 @@
                                     <td>{{guests.name}}</td>
                                     <td>{{guests.lastname}}</td>
                                     <td>{{guests.usuario}}</td>
-                                    <td>{{#if details.dataValues.response}}{{details.dataValues.response}}{{else}}Sin
-                                        respuesta{{/if}}</td>
+                                    <td>{{#if (equals details.dataValues.response "1") }}
+                                        Asistirá
+                                        {{else if (equals details.dataValues.response "2")}}
+                                        Tal vez asista
+                                        {{else if (equals details.dataValues.response "3")}}
+                                        No asistirá
+                                        {{else}}Sin respuesta
+                                        {{/if}}</td>
                                     <td>
 
                                         <form method="POST" id="form-delete-guests" action="/drop-guests" class="form-inline">

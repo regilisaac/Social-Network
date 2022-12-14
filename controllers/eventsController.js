@@ -236,10 +236,11 @@ exports.postResponseGuests = (req, res, next) => {
   const eventId = req.body.eventId;
   const userId = req.body.userId;
   const response = req.body.response;
-  console.log(eventId);
-  console.log(userId);
-  console.log(response);
-  
+
+ if(response === " "|| response === undefined|| response === null){
+  req.flash("errors", "Debe seleccionar una opción");
+  res.redirect("/events");
+  }
   DEvents.update({response: response}, {where: {FriendId: userId, eventId: eventId}}).then((result) => {
       res.redirect("/events");
   }).catch((err) => {

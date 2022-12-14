@@ -27,26 +27,31 @@
               
                 {{#each users as |user|}}
                   {{#if (equals user.id ../userd.id)}}
+                  
 
                   {{else}}
-                          <div class="col">
-                              <div class="card" style="width: 18rem;">
-                                  <div class="card-body center">
-                                      <div class="img-user">
-                                        <img src="{{user.img}}" alt="{{user.usuario}}">
+                       {{#if (equals user.estado "0")}}
+
+                       {{else}}
+                              <div class="col">
+                                  <div class="card" style="width: 18rem;">
+                                      <div class="card-body center">
+                                          <div class="img-user">
+                                            <img src="{{user.img}}" alt="{{user.usuario}}">
+                                          </div>
+                                          <h3 class="card-title">{{user.usuario}}</h3>
+                                          <form method="POST" id="form-delete-book" action="/addfriend">
+                                          <input type="hidden" name="friendId" value= "{{user.id}}" />
+                                          <input type="hidden" name="userId" value= "{{../userd.id}}" />
+                                          <div class="btn-center2">
+                                          <button type="submit"  class="btn btn-outline-primary me-3 delete-book">Agregar</button> 
+                                          </div>
+                                          </form>  
+                                        </div> 
+                                      
                                       </div>
-                                      <h3 class="card-title">{{user.usuario}}</h3>
-                                      <form method="POST" id="form-delete-book" action="/addfriend">
-                                      <input type="hidden" name="friendId" value= "{{user.id}}" />
-                                      <input type="hidden" name="userId" value= "{{../userd.id}}" />
-                                      <div class="btn-center2">
-                                      <button type="submit"  class="btn btn-outline-primary me-3 delete-book">Agregar</button> 
-                                      </div>
-                                      </form>  
-                                    </div> 
-                                  
-                                  </div>
-                          </div>
+                              </div>
+                          {{/if}}  
                     {{/if}}  
               {{/each}}
            </div>
